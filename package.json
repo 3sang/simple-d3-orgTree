@@ -1,0 +1,71 @@
+{
+  "name": "an-orgtree-react-antd-simple",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/lib/orgTree.js",
+  "scripts": {
+    "start": " umi dev",
+    "build": "rollup -c",
+    "test": "umi test",
+    "lint": "eslint {src,mock,tests}/**/*.{js,jsx} --fix",
+    "precommit": "lint-staged"
+  },
+  "dependencies": {
+    "antd": "^3.19.5",
+    "axios": "^0.21.0",
+    "d3": "^6.3.1",
+    "dva": "^2.6.0-beta.6",
+    "eslint-plugin-compat": "^3.8.0",
+    "jquery": "^3.5.1",
+    "mockjs": "^1.1.0",
+    "react": "^16.8.6",
+    "react-app-rewired": "^2.1.6",
+    "react-dom": "^16.8.6",
+    "react-resizable": "^1.11.0",
+    "webpack": "^5.12.2",
+    "xlsx": "^0.16.8"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-react": "^7.12.10",
+    "@emotion/babel-preset-css-prop": "^11.0.0",
+    "babel-eslint": "^9.0.0",
+    "css-loader": "^5.0.1",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-umi": "^1.4.0",
+    "eslint-plugin-flowtype": "^2.50.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^5.1.0",
+    "eslint-plugin-react": "^7.21.5",
+    "less": "^3.12.2",
+    "less-loader": "^7.1.0",
+    "lint-staged": "^7.2.2",
+    "react-test-renderer": "^16.7.0",
+    "rollup": "^2.36.1",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-img": "^1.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "style-loader": "^2.0.0",
+    "umi": "^2.7.7",
+    "umi-plugin-react": "^1.8.4"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "eslintConfig": {
+    "rules": {
+      "no-undef": "off",
+      "no-restricted-globals": "off",
+      "no-unused-vars": "off"
+    }
+  }
+}
