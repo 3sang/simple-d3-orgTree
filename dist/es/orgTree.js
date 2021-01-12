@@ -10127,63 +10127,34 @@ function tree () {
   return tree;
 }
 
-var userPng = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyBjbGFzcz0iaWNvbiIgd2lkdGg9IjIwMHB4IiBoZWlnaHQ9IjIwMC4wMHB4IiB2aWV3Qm94PSIwIDAgMTAyNCAxMDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbD0iIzMzMzMzMyIgZD0iTTUxMy41MzYgNjI4LjYzMzZjMTAxLjY4MzIgMCAyODAuODgzMiAzOC43MDcyIDMxMC44ODY0IDE5My43NDA4IDc3LjUxNjgtNzcuNTE2OCAxMjQuOTI4LTE4NS45NTg0IDEyNC45MjgtMzA1LjA0OTYgMC0yNDEuMTUyLTE5NC42NjI0LTQzNS44MTQ0LTQzNS44MTQ0LTQzNS44MTQ0Uzc3LjcyMTYgMjc3LjA5NDQgNzcuNzIxNiA1MTcuMjIyNGMwIDExOS4wOTEyIDQ3LjQxMTIgMjI3LjYzNTIgMTI0LjkyOCAzMDYuMDczNiAzMC4wMDMyLTE1NC45MzEyIDIwOS4yMDMyLTE5NC42NjI0IDMxMC44ODY0LTE5NC42NjI0eiBtMC00MzkuNzA1NmMxMTIuMzMyOCAwIDIwNC4zOTA0IDkxLjAzMzYgMjA0LjM5MDQgMjA0LjM5MDQgMCAxMTIuMzMyOC05MS4wMzM2IDIwNC4zOTA0LTIwNC4zOTA0IDIwNC4zOTA0YTIwMy43NzYgMjAzLjc3NiAwIDAgMS0yMDQuMzkwNC0yMDQuMzkwNGMwLjEwMjQtMTEyLjQzNTIgOTIuMDU3Ni0yMDQuMzkwNCAyMDQuMzkwNC0yMDQuMzkwNHogbTAgME01MTUuNDgxNiAxMDA2Ljg5OTJjLTY1Ljg0MzIgMC0xMjkuODQzMi0xMi45MDI0LTE4OS45NTItMzguNC01OC4xNjMyLTI0LjU3Ni0xMTAuMjg0OC01OS44MDE2LTE1NS4xMzYtMTA0LjU1MDRBNDg1LjU2MDMyIDQ4NS41NjAzMiAwIDAgMSA2NS44NDMyIDcwOC44MTI4Yy0yNS42LTYwLjIxMTItMzguNTAyNC0xMjQuMTA4OC0zOC41MDI0LTE4OS45NTIgMC02NS44NDMyIDEyLjkwMjQtMTI5Ljg0MzIgMzguNC0xODkuOTUyIDI0LjU3Ni01OC4xNjMyIDU5LjgwMTYtMTEwLjI4NDggMTA0LjU1MDQtMTU1LjEzNiA0NC44NTEyLTQ0Ljg1MTIgOTYuOTcyOC03OS45NzQ0IDE1NS4xMzYtMTA0LjU1MDRDMzg1LjYzODQgNDMuNjIyNCA0NDkuNTM2IDMwLjcyIDUxNS40ODE2IDMwLjcyYzY1Ljg0MzIgMCAxMjkuODQzMiAxMi45MDI0IDE4OS45NTIgMzguNCA1OC4xNjMyIDI0LjU3NiAxMTAuMjg0OCA1OS44MDE2IDE1NS4xMzYgMTA0LjU1MDQgNDQuODUxMiA0NC44NTEyIDc5Ljk3NDQgOTYuOTcyOCAxMDQuNTUwNCAxNTUuMTM2Qzk5MC42MTc2IDM4OS4wMTc2IDEwMDMuNTIgNDUyLjkxNTIgMTAwMy41MiA1MTguODYwOGMwIDY1Ljg0MzItMTIuOTAyNCAxMjkuODQzMi0zOC40IDE4OS45NTItMjQuNTc2IDU4LjE2MzItNTkuODAxNiAxMTAuMjg0OC0xMDQuNTUwNCAxNTUuMTM2YTQ4NS41NjAzMiA0ODUuNTYwMzIgMCAwIDEtMTU1LjEzNiAxMDQuNTUwNCA0ODQuMzkyOTYgNDg0LjM5Mjk2IDAgMCAxLTE4OS45NTIgMzguNHogbTAtOTM2Ljg1NzZjLTYwLjYyMDggMC0xMTkuMzk4NCAxMS44Nzg0LTE3NC42OTQ0IDM1LjIyNTZhNDQ3Ljc2NDQ4IDQ0Ny43NjQ0OCAwIDAgMC0xNDIuNjQzMiA5Ni4xNTM2QTQ0NC40MjYyNCA0NDQuNDI2MjQgMCAwIDAgMTAxLjk5MDQgMzQ0LjA2NGE0NDYuNzA5NzYgNDQ2LjcwOTc2IDAgMCAwLTM1LjIyNTYgMTc0LjY5NDRjMCA2MC42MjA4IDExLjg3ODQgMTE5LjM5ODQgMzUuMjI1NiAxNzQuNjk0NCAyMi42MzA0IDUzLjQ1MjggNTQuOTg4OCAxMDEuNDc4NCA5Ni4xNTM2IDE0Mi42NDMyIDQxLjE2NDggNDEuMjY3MiA4OS4xOTA0IDczLjYyNTYgMTQyLjY0MzIgOTYuMTUzNiA1NS4yOTYgMjMuMzQ3MiAxMTQuMDczNiAzNS4yMjU2IDE3NC42OTQ0IDM1LjIyNTYgNjAuNjIwOCAwIDExOS4zOTg0LTExLjg3ODQgMTc0LjY5NDQtMzUuMjI1NiA1My40NTI4LTIyLjYzMDQgMTAxLjQ3ODQtNTQuOTg4OCAxNDIuNjQzMi05Ni4xNTM2IDQxLjI2NzItNDEuMTY0OCA3My42MjU2LTg5LjE5MDQgOTYuMTUzNi0xNDIuNjQzMiAyMy4zNDcyLTU1LjI5NiAzNS4yMjU2LTExNC4wNzM2IDM1LjIyNTYtMTc0LjY5NDQgMC02MC42MjA4LTExLjg3ODQtMTE5LjM5ODQtMzUuMjI1Ni0xNzQuNjk0NGE0NDcuNzY0NDggNDQ3Ljc2NDQ4IDAgMCAwLTk2LjE1MzYtMTQyLjY0MzIgNDQ0LjQyNjI0IDQ0NC40MjYyNCAwIDAgMC0xNDIuNjQzMi05Ni4xNTM2IDQ0Ny40NDcwNCA0NDcuNDQ3MDQgMCAwIDAtMTc0LjY5NDQtMzUuMjI1NnogbTAgMCIgLz48L3N2Zz4=";
-
 /**
- * @param {svgWidth} int 图形宽度
- * @param {svgHeight} int 图形高度
- * @param {cardWidth} int 卡片宽度，默认 200px
- * @param {cardHeight} int 卡片高度，默认 120px
- * @param {cardStrokeWidth} int 卡片边框宽度，默认 4
- * @param {cardPadding} int 卡片内边距，默认 20
- * @param {imgWidth} int 头像宽度/长度，默认50
- * @param {childCardWidth} int 子级卡片宽度，默认=cardHeight
- * @param {childCardHeight} int 子级卡片高度，默认= cardWidth-imgWidth
- * @param {cardColor} string 边框的颜色
- * @param {lineColor} string 线条的颜色
- * @param {textAlign} string(middle | left | right) 文本对齐方式，默认left
+ * @param {svgWidth} svgWidth int 图形宽度
+ * @param {svgHeight} svgHeight int 图形高度
+ * @param {cardWidth} cardWidth int 卡片宽度，默认 200px
+ * @param {cardHeight} cardHeight int 卡片高度，默认 120px
+ * @param {cardStrokeWidth} cardStrokeWidth int 卡片边框宽度，默认 4
+ * @param {cardPadding} cardPadding int 卡片内边距，默认 20
+ * @param {imgWidth} imgWidth int 头像宽度/长度，默认50
+ * @param {childCardWidth} childCardWidth int 子级卡片宽度，默认=cardHeight
+ * @param {childCardHeight} childCardHeight int 子级卡片高度，默认= cardWidth-imgWidth
+ * @param {cardColor} cardColor string 边框的颜色
+ * @param {lineColor} lineColor string 线条的颜色
+ * @param {textAlign} textAlign string(middle | left | right) 文本对齐方式，默认left
  * @param {data} [name:string,imgSrc:string,description:string,children:[]]
  * 注：description中使用\n可以换行，
  */
 
 function Index(props) {
-  var datasource = {
-    name: '11111',
-    description: '职位',
-    imgSrc: userPng,
-    children: [{
-      name: '1111-1111',
-      description: '职位1\n职位2',
-      imgSrc: userPng
-    }, {
-      name: '21332434',
-      description: '职位',
-      imgSrc: userPng,
-      children: [{
-        name: '9484755',
-        description: '职位',
-        imgSrc: userPng
-      }]
-    }, {
-      name: '1111-2222',
-      description: '职位',
-      imgSrc: userPng
-    }, {
-      name: '121212',
-      description: '职位',
-      imgSrc: userPng
-    }]
-  };
-  var _props$SvgWidth = props.SvgWidth,
-      SvgWidth = _props$SvgWidth === void 0 ? 1200 : _props$SvgWidth,
-      _props$SvgHeight = props.SvgHeight,
-      SvgHeight = _props$SvgHeight === void 0 ? 400 : _props$SvgHeight,
+  var _props$svgWidth = props.svgWidth,
+      svgWidth = _props$svgWidth === void 0 ? 1200 : _props$svgWidth,
+      _props$svgHeight = props.svgHeight,
+      svgHeight = _props$svgHeight === void 0 ? 400 : _props$svgHeight,
       _props$cardWidth = props.cardWidth,
       cardWidth = _props$cardWidth === void 0 ? 200 : _props$cardWidth,
       _props$cardHeight = props.cardHeight,
       cardHeight = _props$cardHeight === void 0 ? 110 : _props$cardHeight,
       _props$data = props.data,
-      data = _props$data === void 0 ? datasource : _props$data,
+      data = _props$data === void 0 ? [] : _props$data,
       _props$cardColor = props.cardColor,
       cardColor = _props$cardColor === void 0 ? 'rgba(66, 163, 255, 0.1)' : _props$cardColor,
       _props$lineColor = props.lineColor,
@@ -10215,7 +10186,7 @@ function Index(props) {
       setTreeLinks = _useState4[1];
 
   useEffect(function () {
-    var treeLayout = tree().size([SvgWidth * 0.8, SvgHeight]).separation(function (a, b) {
+    var treeLayout = tree().size([svgWidth * 0.8, svgHeight]).separation(function (a, b) {
       return a.parent === b.parent ? 1 : 2;
     });
     tree$1.current = treeLayout;
@@ -10224,25 +10195,27 @@ function Index(props) {
     var treeNode = treeLayout(hierarchyData);
     setTreeNodes(treeNode.descendants());
     setTreeLinks(treeNode.links());
-  }, []);
+  }, [svgWidth, svgHeight]);
 
   var decriptionText = function decriptionText(text) {
-    var arr = text.split('\n');
-    return lodash.map(arr, function (d, i) {
-      return /*#__PURE__*/React.createElement("tspan", {
-        x: "0",
-        y: 22 + i * (fontSize + 4),
-        "font-size": "14",
-        fill: "#888888"
-      }, d);
-    });
+    if (!lodash.isEmpty(text)) {
+      var arr = text.split('\n');
+      return lodash.map(arr, function (d, i) {
+        return /*#__PURE__*/React.createElement("tspan", {
+          x: "0",
+          y: 22 + i * (fontSize + 4),
+          fontSize: "14",
+          fill: "#888888"
+        }, d);
+      });
+    }
   };
 
   return /*#__PURE__*/React.createElement("svg", {
-    width: SvgWidth,
-    height: SvgHeight,
+    width: svgWidth,
+    height: svgHeight,
     style: {
-      padding: '10px'
+      padding: !lodash.isEmpty(treeNodes) && "10px ".concat((svgWidth - 2 * Math.floor(treeNodes[0].x)) / 2, "px")
     }
   }, /*#__PURE__*/React.createElement("g", {
     className: "tree_node"
@@ -10266,13 +10239,13 @@ function Index(props) {
       height: imgWidth,
       transform: "translate(".concat(cardPadding - cardWidth / 2, ", ").concat(cardHeight / 2 - 22, ")")
     }), /*#__PURE__*/React.createElement("text", {
-      "text-anchor": "left",
+      textAnchor: "left",
       transform: "translate(0, ".concat(cardHeight / 2, ")")
     }, /*#__PURE__*/React.createElement("tspan", {
       x: "0",
       y: "0",
-      "font-size": "22",
-      "font-weight": "bold",
+      fontSize: "22",
+      fontWeight: "bold",
       fill: "#1A2D3F"
     }, node.data.name), decriptionText(node.data.description))) : /*#__PURE__*/React.createElement("g", {
       transform: "translate(".concat(node.x, ", ").concat(node.y, ")")
@@ -10293,13 +10266,13 @@ function Index(props) {
       height: imgWidth,
       transform: "translate(".concat(-imgWidth / 2, ", ").concat(cardPadding, ")")
     }), /*#__PURE__*/React.createElement("text", {
-      "text-anchor": textAlign,
+      textAnchor: textAlign,
       transform: "translate(0, ".concat(2 * cardPadding + 10 + imgWidth, ")")
     }, /*#__PURE__*/React.createElement("tspan", {
       x: "0",
       y: "0",
-      "font-size": "18",
-      "font-weight": "bold",
+      fontSize: "18",
+      fontWeight: "bold",
       fill: "#1A2D3F"
     }, node.data.name), decriptionText(node.data.description)));
   })), /*#__PURE__*/React.createElement("g", {
