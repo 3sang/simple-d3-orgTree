@@ -14,17 +14,17 @@
 .umi
 .umi-production
 
-# /src
-# /mock
-# .env
-# .eslintrc.js
-# .umirc
-# .prettierrc
-# .prettierignore
-# .babelrc
-# .editorconfig
-# .umirc.js
-# rollup.config.js
-# .gitignore
-# .npmignore
+/src
+/mock
+.env
+.eslintrc.js
+.umirc
+.prettierrc
+.prettierignore
+.babelrc
+.editorconfig
+.umirc.js
+rollup.config.js
+.gitignore
+.npmignore
 
