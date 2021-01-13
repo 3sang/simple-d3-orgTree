@@ -1,6 +1,6 @@
 {
   "name": "an-orgtree-react-antd-simple",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "dist/lib/orgTree.js",
   "scripts": {
