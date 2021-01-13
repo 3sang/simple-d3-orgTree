@@ -10177,30 +10177,17 @@ function Index(props) {
       textAlign = _props$textAlign === void 0 ? 'middle' : _props$textAlign;
   var tree$1 = useRef(null);
 
-  var _useState = useState({}),
+  var _useState = useState([]),
       _useState2 = _slicedToArray(_useState, 2),
-      dataSource = _useState2[0],
-      setDataSource = _useState2[1];
+      treeNodes = _useState2[0],
+      setTreeNodes = _useState2[1];
 
   var _useState3 = useState([]),
       _useState4 = _slicedToArray(_useState3, 2),
-      treeNodes = _useState4[0],
-      setTreeNodes = _useState4[1];
-
-  var _useState5 = useState([]),
-      _useState6 = _slicedToArray(_useState5, 2),
-      treeLinks = _useState6[0],
-      setTreeLinks = _useState6[1];
-  /** 处理data */
-
-
-  useEffect(function () {
-    var dataClone = lodash.cloneDeep(data);
-
-    handleData([dataClone]);
-    setDataSource(dataClone);
-  }, [data]);
+      treeLinks = _useState4[0],
+      setTreeLinks = _useState4[1];
   /** 遍历data,如果没有imgSrc就默认 */
+
 
   var handleData = function handleData(data) {
     lodash.map(data, function (d) {
@@ -10214,16 +10201,21 @@ function Index(props) {
   };
 
   useEffect(function () {
-    var treeLayout = tree().size([svgWidth * 0.8, svgHeight]).separation(function (a, b) {
-      return a.parent === b.parent ? 1 : 2;
-    });
-    tree$1.current = treeLayout;
-    var hierarchyData = hierarchy(dataSource); // hierarchy layout and add node.x,node.y
+    if (!lodash.isEmpty(data)) {
+      var dataClone = lodash.cloneDeep(data);
 
-    var treeNode = treeLayout(hierarchyData);
-    setTreeNodes(treeNode.descendants());
-    setTreeLinks(treeNode.links());
-  }, [svgWidth, svgHeight, dataSource]);
+      handleData([dataClone]);
+      var treeLayout = tree().size([svgWidth * 0.8, svgHeight]).separation(function (a, b) {
+        return a.parent === b.parent ? 1 : 2;
+      });
+      tree$1.current = treeLayout;
+      var hierarchyData = hierarchy(dataClone); // hierarchy layout and add node.x,node.y
+
+      var treeNode = treeLayout(hierarchyData);
+      setTreeNodes(treeNode.descendants());
+      setTreeLinks(treeNode.links());
+    }
+  }, [svgWidth, svgHeight, data]);
 
   var decriptionText = function decriptionText(text) {
     if (!lodash.isEmpty(text)) {

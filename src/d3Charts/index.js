@@ -72,16 +72,8 @@ function Index(props) {
     textAlign = 'middle',
   } = props;
   const tree = useRef(null);
-  const [dataSource, setDataSource] = useState({});
   const [treeNodes, setTreeNodes] = useState([]);
   const [treeLinks, setTreeLinks] = useState([]);
-
-  /** 处理data */
-  useEffect(() => {
-    let dataClone = _.cloneDeep(data);
-    handleData([dataClone]);
-    setDataSource(dataClone);
-  }, [data]);
 
   /** 遍历data,如果没有imgSrc就默认 */
   const handleData = data => {
@@ -96,18 +88,23 @@ function Index(props) {
   };
 
   useEffect(() => {
-    const treeLayout = d3
-      .tree()
-      .size([svgWidth * 0.8, svgHeight])
-      .separation((a, b) => (a.parent === b.parent ? 1 : 2));
-    tree.current = treeLayout;
+    if(!_.isEmpty(data)){
+      let dataClone = _.cloneDeep(data);
+      handleData([dataClone]);
 
-    const hierarchyData = d3.hierarchy(dataSource);
-    // hierarchy layout and add node.x,node.y
-    const treeNode = treeLayout(hierarchyData);
-    setTreeNodes(treeNode.descendants());
-    setTreeLinks(treeNode.links());
-  }, [svgWidth, svgHeight,dataSource]);
+      const treeLayout = d3
+        .tree()
+        .size([svgWidth * 0.8, svgHeight])
+        .separation((a, b) => (a.parent === b.parent ? 1 : 2));
+      tree.current = treeLayout;
+
+      const hierarchyData = d3.hierarchy(dataClone);
+      // hierarchy layout and add node.x,node.y
+      const treeNode = treeLayout(hierarchyData);
+      setTreeNodes(treeNode.descendants());
+      setTreeLinks(treeNode.links());      
+    }
+  }, [svgWidth, svgHeight,data]);
 
   const decriptionText = text => {
     if (!_.isEmpty(text)) {
