@@ -17,11 +17,11 @@ import userPng from '../assets/svg/user.svg';
  * @param {cardColor} cardColor string 边框的颜色
  * @param {lineColor} lineColor string 线条的颜色
  * @param {textAlign} textAlign string(middle | left | right) 文本对齐方式，默认left
- * @param {data} [name:string,imgSrc:string,description:string,children:[]]
+ * @param {data} {name:string,imgSrc:string,description:string,children:[]}
  * 注：description中使用\n可以换行，
  */
 function Index(props) {
-  const datasource = {
+  const dataTest = {
     name: '11111',
     description: '职位',
     imgSrc: userPng,
@@ -56,11 +56,11 @@ function Index(props) {
     ],
   };
   const {
+    data = {},
     svgWidth = 1200,
     svgHeight = 400,
-    cardWidth = 200,
+    cardWidth = 180,
     cardHeight = 110,
-    data = [],
     cardColor = 'rgba(66, 163, 255, 0.1)',
     lineColor = '#EEEEEE',
     childCardWidth = 130,
@@ -72,8 +72,28 @@ function Index(props) {
     textAlign = 'middle',
   } = props;
   const tree = useRef(null);
+  const [dataSource, setDataSource] = useState({});
   const [treeNodes, setTreeNodes] = useState([]);
   const [treeLinks, setTreeLinks] = useState([]);
+
+  /** 处理data */
+  useEffect(() => {
+    let dataClone = _.cloneDeep(data);
+    handleData([dataClone]);
+    setDataSource(dataClone);
+  }, [data]);
+
+  /** 遍历data,如果没有imgSrc就默认 */
+  const handleData = data => {
+    _.map(data, d => {
+      if (_.has(d, 'children')) {
+        d.imgSrc = userPng;
+        handleData(d.children);
+      } else {
+        d.imgSrc = userPng;
+      }
+    });
+  };
 
   useEffect(() => {
     const treeLayout = d3
@@ -82,12 +102,12 @@ function Index(props) {
       .separation((a, b) => (a.parent === b.parent ? 1 : 2));
     tree.current = treeLayout;
 
-    const hierarchyData = d3.hierarchy(data);
+    const hierarchyData = d3.hierarchy(dataSource);
     // hierarchy layout and add node.x,node.y
     const treeNode = treeLayout(hierarchyData);
     setTreeNodes(treeNode.descendants());
     setTreeLinks(treeNode.links());
-  }, [svgWidth, svgHeight]);
+  }, [svgWidth, svgHeight,dataSource]);
 
   const decriptionText = text => {
     if (!_.isEmpty(text)) {

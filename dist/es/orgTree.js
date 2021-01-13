@@ -10127,6 +10127,8 @@ function tree () {
   return tree;
 }
 
+var userPng = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyBjbGFzcz0iaWNvbiIgd2lkdGg9IjIwMHB4IiBoZWlnaHQ9IjE5OS44MHB4IiB2aWV3Qm94PSIwIDAgMTAyNSAxMDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbD0iIzcwNzA3MCIgZD0iTTU4Mi4zNTI3MDYgNTY4Ljg4NTY2N2MtMy4xNzMwMDktMS4wMzMwMDMtMjMuMjA4MDY4LTEwLjA2NzAyOS0xMC42ODgwMzEtNDguMTI2MTQxbC0wLjE3MzAwMSAwYzMyLjYyODA5Ni0zMy42MDIwOTggNTcuNTY4MTY5LTg3LjcwMzI1NyA1Ny41NjgxNjktMTQwLjk0NTQxMyAwLTgxLjg4MTI0LTU0LjQ1NDE2LTEyNC43ODgzNjYtMTE3LjcyNzM0NS0xMjQuNzg4MzY2LTYzLjMxMTE4NSAwLTExNy40NTUzNDQgNDIuOTA4MTI2LTExNy40NTUzNDQgMTI0Ljc4ODM2NiAwIDUzLjQ1ODE1NyAyNC44MDMwNzMgMTA3Ljc3NTMxNiA1Ny42MjcxNjkgMTQxLjI5NTQxNCAxMi43OTIwMzcgMzMuNTYzMDk4LTEwLjA4NjAzIDQ2LjAyMTEzNS0xNC44NzMwNDQgNDcuNzc2MTQtNjYuMjcxMTk0IDIzLjk2MzA3LTE0NC4wMDk0MjIgNjcuNjQ4MTk4LTE0NC4wMDk0MjIgMTEwLjc3MTMyNWwwIDE2LjE1NzA0N2MwIDU4Ljc1NTE3MiAxMTMuOTEwMzM0IDcyLjExMTIxMSAyMTkuMzMyNjQzIDcyLjExMTIxMSAxMDUuNTc4MzA5IDAgMjE4LjA0NzYzOS0xMy4zNTYwMzkgMjE4LjA0NzYzOS03Mi4xMTEyMTFsMC0xNi4xNTcwNDdDNzMwLjAwMTEzOSA2MzUuMjI5ODYxIDY1MS44NzQ5MSA1OTEuODk3NzM0IDU4Mi4zNTI3MDYgNTY4Ljg4NTY2N0w1ODIuMzUyNzA2IDU2OC44ODU2Njd6TTU4Mi4zNTI3MDYgNTY4Ljg4NTY2N001MTEuMzA4NDk4IDk1OC44OTU4MDljLTI0Ni43MTQ3MjMgMC00NDcuNDE3MzExLTIwMC43MDI1ODgtNDQ3LjQxNzMxMS00NDcuNDIzMzExIDAtMjQ2LjcxNDcyMyAyMDAuNzAyNTg4LTQ0Ny40MTczMTEgNDQ3LjQxNzMxMS00NDcuNDE3MzExIDI0Ni43MjE3MjMgMCA0NDcuNDIzMzExIDIwMC43MDI1ODggNDQ3LjQyMzMxMSA0NDcuNDE3MzExQzk1OC43MzE4MDkgNzU4LjE5NDIyMSA3NTguMDI5MjIxIDk1OC44OTU4MDkgNTExLjMwODQ5OCA5NTguODk1ODA5TDUxMS4zMDg0OTggOTU4Ljg5NTgwOXpNNTExLjMwODQ5OCAxMjguMjU5Mzc2Yy0yMTEuMzA3NjE5IDAtMzgzLjIxMzEyMyAxNzEuOTA1NTA0LTM4My4yMTMxMjMgMzgzLjIxMzEyMyAwIDIxMS4yNzk2MTkgMTcxLjkwNTUwNCAzODMuMjE5MTIzIDM4My4yMTMxMjMgMzgzLjIxOTEyMyAyMTEuMjc5NjE5IDAgMzgzLjIxOTEyMy0xNzEuOTM5NTA0IDM4My4yMTkxMjMtMzgzLjIxOTEyM0M4OTQuNTI3NjIxIDMwMC4xNjU4NzkgNzIyLjU4ODExNyAxMjguMjU5Mzc2IDUxMS4zMDg0OTggMTI4LjI1OTM3Nkw1MTEuMzA4NDk4IDEyOC4yNTkzNzZ6TTUxMS4zMDg0OTggMTI4LjI1OTM3NiIgLz48L3N2Zz4=";
+
 /**
  * @param {svgWidth} svgWidth int 图形宽度
  * @param {svgHeight} svgHeight int 图形高度
@@ -10140,21 +10142,21 @@ function tree () {
  * @param {cardColor} cardColor string 边框的颜色
  * @param {lineColor} lineColor string 线条的颜色
  * @param {textAlign} textAlign string(middle | left | right) 文本对齐方式，默认left
- * @param {data} [name:string,imgSrc:string,description:string,children:[]]
+ * @param {data} {name:string,imgSrc:string,description:string,children:[]}
  * 注：description中使用\n可以换行，
  */
 
 function Index(props) {
-  var _props$svgWidth = props.svgWidth,
+  var _props$data = props.data,
+      data = _props$data === void 0 ? {} : _props$data,
+      _props$svgWidth = props.svgWidth,
       svgWidth = _props$svgWidth === void 0 ? 1200 : _props$svgWidth,
       _props$svgHeight = props.svgHeight,
       svgHeight = _props$svgHeight === void 0 ? 400 : _props$svgHeight,
       _props$cardWidth = props.cardWidth,
-      cardWidth = _props$cardWidth === void 0 ? 200 : _props$cardWidth,
+      cardWidth = _props$cardWidth === void 0 ? 180 : _props$cardWidth,
       _props$cardHeight = props.cardHeight,
       cardHeight = _props$cardHeight === void 0 ? 110 : _props$cardHeight,
-      _props$data = props.data,
-      data = _props$data === void 0 ? [] : _props$data,
       _props$cardColor = props.cardColor,
       cardColor = _props$cardColor === void 0 ? 'rgba(66, 163, 255, 0.1)' : _props$cardColor,
       _props$lineColor = props.lineColor,
@@ -10175,27 +10177,53 @@ function Index(props) {
       textAlign = _props$textAlign === void 0 ? 'middle' : _props$textAlign;
   var tree$1 = useRef(null);
 
-  var _useState = useState([]),
+  var _useState = useState({}),
       _useState2 = _slicedToArray(_useState, 2),
-      treeNodes = _useState2[0],
-      setTreeNodes = _useState2[1];
+      dataSource = _useState2[0],
+      setDataSource = _useState2[1];
 
   var _useState3 = useState([]),
       _useState4 = _slicedToArray(_useState3, 2),
-      treeLinks = _useState4[0],
-      setTreeLinks = _useState4[1];
+      treeNodes = _useState4[0],
+      setTreeNodes = _useState4[1];
+
+  var _useState5 = useState([]),
+      _useState6 = _slicedToArray(_useState5, 2),
+      treeLinks = _useState6[0],
+      setTreeLinks = _useState6[1];
+  /** 处理data */
+
+
+  useEffect(function () {
+    var dataClone = lodash.cloneDeep(data);
+
+    handleData([dataClone]);
+    setDataSource(dataClone);
+  }, [data]);
+  /** 遍历data,如果没有imgSrc就默认 */
+
+  var handleData = function handleData(data) {
+    lodash.map(data, function (d) {
+      if (lodash.has(d, 'children')) {
+        d.imgSrc = userPng;
+        handleData(d.children);
+      } else {
+        d.imgSrc = userPng;
+      }
+    });
+  };
 
   useEffect(function () {
     var treeLayout = tree().size([svgWidth * 0.8, svgHeight]).separation(function (a, b) {
       return a.parent === b.parent ? 1 : 2;
     });
     tree$1.current = treeLayout;
-    var hierarchyData = hierarchy(data); // hierarchy layout and add node.x,node.y
+    var hierarchyData = hierarchy(dataSource); // hierarchy layout and add node.x,node.y
 
     var treeNode = treeLayout(hierarchyData);
     setTreeNodes(treeNode.descendants());
     setTreeLinks(treeNode.links());
-  }, [svgWidth, svgHeight]);
+  }, [svgWidth, svgHeight, dataSource]);
 
   var decriptionText = function decriptionText(text) {
     if (!lodash.isEmpty(text)) {
