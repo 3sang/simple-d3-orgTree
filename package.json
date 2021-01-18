@@ -1,6 +1,6 @@
 {
   "name": "an-orgtree-react-antd-simple",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "dist/lib/orgTree.js",
   "scripts": {
@@ -11,18 +11,10 @@
     "precommit": "lint-staged"
   },
   "dependencies": {
-    "antd": "^3.19.5",
-    "axios": "^0.21.0",
     "d3": "^6.3.1",
-    "dva": "^2.6.0-beta.6",
-    "eslint-plugin-compat": "^3.8.0",
-    "jquery": "^3.5.1",
-    "mockjs": "^1.1.0",
+    "lodash": "^4.17.20",
     "react": "^16.8.6",
-    "react-app-rewired": "^2.1.6",
-    "react-dom": "^16.8.6",
-    "react-resizable": "^1.11.0",
-    "webpack": "^5.12.2"
+    "react-dom": "^16.8.6"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",

@@ -14,7 +14,7 @@ export default {
   },
   plugins:[
     babel(),
-    resolve(),  // 这样 Rollup 能找到npm安装的modules
+    resolve(),  // 这样 Rollup 能找到npm安装的modules并把所需打包
     commonjs(), // 这样 Rollup 能转换 `ms` 为一个ES模块
     image({
       limit: 10000
