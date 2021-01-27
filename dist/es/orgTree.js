@@ -10132,16 +10132,18 @@ var userPng = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25
 /**
  * @param {svgWidth} svgWidth int 图形宽度
  * @param {svgHeight} svgHeight int 图形高度
+ * @param {svgPadding} svgPadding int svg内边距
  * @param {cardWidth} cardWidth int 卡片宽度，默认 200px
  * @param {cardHeight} cardHeight int 卡片高度，默认 120px
  * @param {cardStrokeWidth} cardStrokeWidth int 卡片边框宽度，默认 4
  * @param {cardPadding} cardPadding int 卡片内边距，默认 20
  * @param {imgWidth} imgWidth int 头像宽度/长度，默认50
  * @param {childCardWidth} childCardWidth int 子级卡片宽度，默认=cardHeight
- * @param {childCardHeight} childCardHeight int 子级卡片高度，默认= cardWidth-imgWidth
+ * @param {childCardHeight} childCardHeight int 子级卡片高度，默认= 155
  * @param {cardColor} cardColor string 边框的颜色
  * @param {lineColor} lineColor string 线条的颜色
  * @param {textAlign} textAlign string(middle | left | right) 文本对齐方式，默认left
+ * @param {textStyle} textStyle {rootFontSize,textColor,childFontSize}
  * @param {data} {name:string,imgSrc:string,description:string,children:[]}
  * 注：description中使用\n可以换行，
  */
@@ -10153,6 +10155,7 @@ function Index(props) {
       svgWidth = _props$svgWidth === void 0 ? 1200 : _props$svgWidth,
       _props$svgHeight = props.svgHeight,
       svgHeight = _props$svgHeight === void 0 ? 400 : _props$svgHeight,
+      svgPadding = props.svgPadding,
       _props$cardWidth = props.cardWidth,
       cardWidth = _props$cardWidth === void 0 ? 180 : _props$cardWidth,
       _props$cardHeight = props.cardHeight,
@@ -10174,7 +10177,9 @@ function Index(props) {
       _props$fontSize = props.fontSize,
       fontSize = _props$fontSize === void 0 ? 16 : _props$fontSize,
       _props$textAlign = props.textAlign,
-      textAlign = _props$textAlign === void 0 ? 'middle' : _props$textAlign;
+      textAlign = _props$textAlign === void 0 ? 'middle' : _props$textAlign,
+      _props$textStyle = props.textStyle,
+      textStyle = _props$textStyle === void 0 ? {} : _props$textStyle;
   var tree$1 = useRef(null);
 
   var _useState = useState([]),
@@ -10192,10 +10197,10 @@ function Index(props) {
   var handleData = function handleData(data) {
     lodash.map(data, function (d) {
       if (lodash.has(d, 'children')) {
-        d.imgSrc = userPng;
+        d.imgSrc = lodash.isEmpty(d.imgSrc) ? userPng : d.imgSrc;
         handleData(d.children);
       } else {
-        d.imgSrc = userPng;
+        d.imgSrc = lodash.isEmpty(d.imgSrc) ? userPng : d.imgSrc;
       }
     });
   };
@@ -10235,14 +10240,21 @@ function Index(props) {
     width: svgWidth,
     height: svgHeight,
     style: {
-      padding: !lodash.isEmpty(treeNodes) && "10px ".concat((svgWidth - 2 * Math.floor(treeNodes[0].x)) / 2, "px")
+      padding: svgPadding ? svgPadding : !lodash.isEmpty(treeNodes) && "10px ".concat((svgWidth - 2 * Math.floor(treeNodes[0].x)) / 2, "px")
     }
   }, /*#__PURE__*/React.createElement("g", {
     className: "tree_node"
   }, lodash.map(treeNodes, function (node, index) {
     return index === 0 ? /*#__PURE__*/React.createElement("g", {
       transform: "translate(".concat(node.x, ", ").concat(node.y, ")")
-    }, /*#__PURE__*/React.createElement("rect", {
+    }, /*#__PURE__*/React.createElement("defs", null, /*#__PURE__*/React.createElement("clipPath", {
+      id: "clip".concat(index)
+    }, /*#__PURE__*/React.createElement("circle", {
+      cx: imgWidth / 2,
+      cy: imgWidth / 2,
+      r: imgWidth / 2,
+      stroke: "#000000"
+    }))), /*#__PURE__*/React.createElement("rect", {
       style: {
         stroke: "".concat(cardColor),
         strokeWidth: "".concat(cardStrokeWidth)
@@ -10257,6 +10269,7 @@ function Index(props) {
       href: node.data.imgSrc,
       width: imgWidth,
       height: imgWidth,
+      clipPath: "url(#clip".concat(index, ")"),
       transform: "translate(".concat(cardPadding - cardWidth / 2, ", ").concat(cardHeight / 2 - 22, ")")
     }), /*#__PURE__*/React.createElement("text", {
       textAnchor: "left",
@@ -10264,12 +10277,19 @@ function Index(props) {
     }, /*#__PURE__*/React.createElement("tspan", {
       x: "0",
       y: "0",
-      fontSize: "22",
+      fontSize: textStyle.rootFontSize ? textStyle.rootFontSize : "22",
       fontWeight: "bold",
-      fill: "#1A2D3F"
+      fill: textStyle.textColor ? textStyle.textColor : "#1A2D3F"
     }, node.data.name), decriptionText(node.data.description))) : /*#__PURE__*/React.createElement("g", {
       transform: "translate(".concat(node.x, ", ").concat(node.y, ")")
-    }, /*#__PURE__*/React.createElement("rect", {
+    }, /*#__PURE__*/React.createElement("defs", null, /*#__PURE__*/React.createElement("clipPath", {
+      id: "clip".concat(index)
+    }, /*#__PURE__*/React.createElement("circle", {
+      cx: imgWidth / 2,
+      cy: imgWidth / 2,
+      r: imgWidth / 2,
+      stroke: "#000000"
+    }))), /*#__PURE__*/React.createElement("rect", {
       style: {
         stroke: "".concat(cardColor),
         strokeWidth: "".concat(cardStrokeWidth)
@@ -10284,16 +10304,17 @@ function Index(props) {
       href: node.data.imgSrc,
       width: imgWidth,
       height: imgWidth,
-      transform: "translate(".concat(-imgWidth / 2, ", ").concat(cardPadding, ")")
+      clipPath: "url(#clip".concat(index, ")"),
+      transform: "translate(".concat(-imgWidth / 2, ", ").concat(cardPadding / 2 + 5, ") scale(1.1)")
     }), /*#__PURE__*/React.createElement("text", {
       textAnchor: textAlign,
-      transform: "translate(0, ".concat(2 * cardPadding + 10 + imgWidth, ")")
+      transform: "translate(0, ".concat(2 * cardPadding + imgWidth, ")")
     }, /*#__PURE__*/React.createElement("tspan", {
       x: "0",
       y: "0",
-      fontSize: "18",
+      fontSize: textStyle.childFontSize ? textStyle.childFontSize : "17",
       fontWeight: "bold",
-      fill: "#1A2D3F"
+      fill: textStyle.textColor ? textStyle.textColor : "#1A2D3F"
     }, node.data.name), decriptionText(node.data.description)));
   })), /*#__PURE__*/React.createElement("g", {
     className: "tree_line"

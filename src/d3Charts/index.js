@@ -7,16 +7,18 @@ import userPng from '../assets/svg/user.svg';
 /**
  * @param {svgWidth} svgWidth int 图形宽度
  * @param {svgHeight} svgHeight int 图形高度
+ * @param {svgPadding} svgPadding int svg内边距
  * @param {cardWidth} cardWidth int 卡片宽度，默认 200px
  * @param {cardHeight} cardHeight int 卡片高度，默认 120px
  * @param {cardStrokeWidth} cardStrokeWidth int 卡片边框宽度，默认 4
  * @param {cardPadding} cardPadding int 卡片内边距，默认 20
  * @param {imgWidth} imgWidth int 头像宽度/长度，默认50
  * @param {childCardWidth} childCardWidth int 子级卡片宽度，默认=cardHeight
- * @param {childCardHeight} childCardHeight int 子级卡片高度，默认= cardWidth-imgWidth
+ * @param {childCardHeight} childCardHeight int 子级卡片高度，默认= 155
  * @param {cardColor} cardColor string 边框的颜色
  * @param {lineColor} lineColor string 线条的颜色
  * @param {textAlign} textAlign string(middle | left | right) 文本对齐方式，默认left
+ * @param {textStyle} textStyle {rootFontSize,textColor,childFontSize}
  * @param {data} {name:string,imgSrc:string,description:string,children:[]}
  * 注：description中使用\n可以换行，
  */
@@ -59,6 +61,7 @@ function Index(props) {
     data = {},
     svgWidth = 1200,
     svgHeight = 400,
+    svgPadding,
     cardWidth = 180,
     cardHeight = 110,
     cardColor = 'rgba(66, 163, 255, 0.1)',
@@ -70,6 +73,7 @@ function Index(props) {
     imgWidth = 50,
     fontSize = 16,
     textAlign = 'middle',
+    textStyle={}
   } = props;
   const tree = useRef(null);
   const [treeNodes, setTreeNodes] = useState([]);
@@ -79,16 +83,16 @@ function Index(props) {
   const handleData = data => {
     _.map(data, d => {
       if (_.has(d, 'children')) {
-        d.imgSrc = userPng;
+        d.imgSrc = _.isEmpty(d.imgSrc) ? userPng : d.imgSrc;
         handleData(d.children);
       } else {
-        d.imgSrc = userPng;
+        d.imgSrc = _.isEmpty(d.imgSrc) ? userPng : d.imgSrc;
       }
     });
   };
 
   useEffect(() => {
-    if(!_.isEmpty(data)){
+    if (!_.isEmpty(data)) {
       let dataClone = _.cloneDeep(data);
       handleData([dataClone]);
 
@@ -102,9 +106,9 @@ function Index(props) {
       // hierarchy layout and add node.x,node.y
       const treeNode = treeLayout(hierarchyData);
       setTreeNodes(treeNode.descendants());
-      setTreeLinks(treeNode.links());      
+      setTreeLinks(treeNode.links());
     }
-  }, [svgWidth, svgHeight,data]);
+  }, [svgWidth, svgHeight, data]);
 
   const decriptionText = text => {
     if (!_.isEmpty(text)) {
@@ -122,14 +126,25 @@ function Index(props) {
       width={svgWidth}
       height={svgHeight}
       style={{
-        padding:
-          !_.isEmpty(treeNodes) && `10px ${(svgWidth - 2 * Math.floor(treeNodes[0].x)) / 2}px`,
+        padding: svgPadding
+          ? svgPadding
+          : !_.isEmpty(treeNodes) && `10px ${(svgWidth - 2 * Math.floor(treeNodes[0].x)) / 2}px`,
       }}
     >
       <g className="tree_node">
         {_.map(treeNodes, (node, index) => {
           return index === 0 ? (
             <g transform={`translate(${node.x}, ${node.y})`}>
+              <defs>
+                <clipPath id={`clip${index}`}>
+                  <circle
+                    cx={imgWidth/2}
+                    cy={imgWidth/2}
+                    r={imgWidth/2}
+                    stroke="#000000"
+                  />
+                </clipPath>
+              </defs>
               <rect
                 style={{ stroke: `${cardColor}`, strokeWidth: `${cardStrokeWidth}` }}
                 fill="none"
@@ -138,19 +153,19 @@ function Index(props) {
                 transform={`translate(-${cardWidth / 2}, ${cardStrokeWidth})`}
                 rx={8}
                 ry={8}
-              >
-              </rect>
+              />
               <image
                 href={node.data.imgSrc}
                 width={imgWidth}
                 height={imgWidth}
+                clipPath={`url(#clip${index})`}
                 transform={`translate(${cardPadding - cardWidth / 2}, ${cardHeight / 2 - 22})`}
               />
               {/* <foreignObject style={{ stroke: `${cardColor}`, strokeWidth: `${cardStrokeWidth}` }} x={0} y={cardHeight / 2} width={cardWidth - 2 * cardPadding - imgWidth} height={cardHeight - 2 * cardPadding}>
                     <p style={{whiteSpace: 'nowrap',overflow: 'hidden',textOverflow: 'ellipsis'}}>测试测试测试测试测试测试测试</p>
                   </foreignObject> */}
               <text textAnchor="left" transform={`translate(0, ${cardHeight / 2})`}>
-                <tspan x="0" y="0" fontSize="22" fontWeight="bold" fill="#1A2D3F">
+                <tspan x="0" y="0" fontSize={textStyle.rootFontSize?textStyle.rootFontSize:"22"} fontWeight="bold" fill={textStyle.textColor?textStyle.textColor:"#1A2D3F"}>
                   {node.data.name}
                 </tspan>
                 {decriptionText(node.data.description)}
@@ -158,6 +173,16 @@ function Index(props) {
             </g>
           ) : (
             <g transform={`translate(${node.x}, ${node.y})`}>
+              <defs>
+                <clipPath id={`clip${index}`}>
+                  <circle
+                    cx={imgWidth/2}
+                    cy={imgWidth/2}
+                    r={imgWidth/2}
+                    stroke="#000000"
+                  />
+                </clipPath>
+              </defs>
               <rect
                 style={{ stroke: `${cardColor}`, strokeWidth: `${cardStrokeWidth}` }}
                 fill="none"
@@ -166,19 +191,19 @@ function Index(props) {
                 transform={`translate(-${childCardWidth / 2}, 0)`}
                 rx={8}
                 ry={8}
-              >
-              </rect>
+              />
               <image
                 href={node.data.imgSrc}
                 width={imgWidth}
                 height={imgWidth}
-                transform={`translate(${-imgWidth / 2}, ${cardPadding})`}
+                clipPath={`url(#clip${index})`}
+                transform={`translate(${-imgWidth / 2}, ${cardPadding/2+5}) scale(1.1)`}
               />
               <text
                 textAnchor={textAlign}
-                transform={`translate(0, ${2 * cardPadding + 10 + imgWidth})`}
+                transform={`translate(0, ${2 * cardPadding + imgWidth})`}
               >
-                <tspan x="0" y="0" fontSize="18" fontWeight="bold" fill="#1A2D3F">
+                <tspan x="0" y="0" fontSize={textStyle.childFontSize?textStyle.childFontSize:"17"} fontWeight="bold" fill={textStyle.textColor?textStyle.textColor:"#1A2D3F"}>
                   {node.data.name}
                 </tspan>
                 {decriptionText(node.data.description)}
