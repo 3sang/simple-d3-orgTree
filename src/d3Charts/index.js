@@ -1,8 +1,16 @@
+/*
+ * Description  : 组织树图文件
+ * Author       : Saraku.
+ * Date         : 2021-04-21 09:08:30
+ * LastEditors  : Dongxy
+ * LastEditTime : 2021-04-21 15:27:36
+ */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from 'react';
 import _ from 'lodash';
 import * as d3 from 'd3';
 import userPng from '../assets/svg/user.svg';
+import './index.css';
 
 /**
  * @param {svgWidth} svgWidth int 图形宽度
@@ -19,44 +27,10 @@ import userPng from '../assets/svg/user.svg';
  * @param {lineColor} lineColor string 线条的颜色
  * @param {textAlign} textAlign string(middle | left | right) 文本对齐方式，默认left
  * @param {textStyle} textStyle {rootFontSize,textColor,childFontSize}
- * @param {data} {name:string,imgSrc:string,description:string,children:[]}
+ * @param {data} data object {name:string,imgSrc:string,description:string,children:[]}
  * 注：description中使用\n可以换行，
  */
 function Index(props) {
-  const dataTest = {
-    name: '11111',
-    description: '职位',
-    imgSrc: userPng,
-    children: [
-      {
-        name: '1111-1111',
-        description: '职位1\n职位2',
-        imgSrc: userPng,
-      },
-      {
-        name: '21332434',
-        description: '职位',
-        imgSrc: userPng,
-        children: [
-          {
-            name: '9484755',
-            description: '职位',
-            imgSrc: userPng,
-          },
-        ],
-      },
-      {
-        name: '1111-2222',
-        description: '职位',
-        imgSrc: userPng,
-      },
-      {
-        name: '121212',
-        description: '职位',
-        imgSrc: userPng,
-      },
-    ],
-  };
   const {
     data = {},
     svgWidth = 1200,
@@ -73,11 +47,13 @@ function Index(props) {
     imgWidth = 50,
     fontSize = 16,
     textAlign = 'middle',
-    textStyle={}
+    textStyle = {},
   } = props;
   const tree = useRef(null);
+  const treeSelect = useRef(null);
   const [treeNodes, setTreeNodes] = useState([]);
   const [treeLinks, setTreeLinks] = useState([]);
+  const [transScale, setTransScale] = useState(1);
 
   /** 遍历data,如果没有imgSrc就默认 */
   const handleData = data => {
@@ -101,9 +77,11 @@ function Index(props) {
         .size([svgWidth * 0.8, svgHeight])
         .separation((a, b) => (a.parent === b.parent ? 1 : 2));
       tree.current = treeLayout;
+      /** 缩放用的 */
+      treeSelect.current = d3.select('tree_svg');
 
       const hierarchyData = d3.hierarchy(dataClone);
-      // hierarchy layout and add node.x,node.y
+      // hierarchy 把处理后的数据变成层次关系，分成Node(点)和link(线)
       const treeNode = treeLayout(hierarchyData);
       setTreeNodes(treeNode.descendants());
       setTreeLinks(treeNode.links());
@@ -121,99 +99,115 @@ function Index(props) {
     }
   };
 
+  /** 放大 */
+  const zoomUp = () => {
+    d3.zoom.scaleTo(treeSelect.current, transScale + 0.05);
+    setTransScale(transScale + 0.05);
+  };
+
+  /** 缩小 */
+  const zoomDown = () => {
+    d3.zoom.scaleTo(treeSelect.current, transScale - 0.05);
+    setTransScale(transScale - 0.05);
+  };
+
   return (
-    <svg
-      width={svgWidth}
-      height={svgHeight}
-      style={{
-        padding: svgPadding
-          ? svgPadding
-          : !_.isEmpty(treeNodes) && `10px ${(svgWidth - 2 * Math.floor(treeNodes[0].x)) / 2}px`,
-      }}
-    >
-      <g className="tree_node">
-        {_.map(treeNodes, (node, index) => {
-          return index === 0 ? (
-            <g transform={`translate(${node.x}, ${node.y})`}>
-              <defs>
-                <clipPath id={`clip${index}`}>
-                  <circle
-                    cx={imgWidth/2}
-                    cy={imgWidth/2}
-                    r={imgWidth/2}
-                    stroke="#000000"
-                  />
-                </clipPath>
-              </defs>
-              <rect
-                style={{ stroke: `${cardColor}`, strokeWidth: `${cardStrokeWidth}` }}
-                fill="none"
-                width={cardWidth}
-                height={cardHeight}
-                transform={`translate(-${cardWidth / 2}, ${cardStrokeWidth})`}
-                rx={8}
-                ry={8}
-              />
-              <image
-                href={node.data.imgSrc}
-                width={imgWidth}
-                height={imgWidth}
-                clipPath={`url(#clip${index})`}
-                transform={`translate(${cardPadding - cardWidth / 2}, ${cardHeight / 2 - 22})`}
-              />
-              {/* <foreignObject style={{ stroke: `${cardColor}`, strokeWidth: `${cardStrokeWidth}` }} x={0} y={cardHeight / 2} width={cardWidth - 2 * cardPadding - imgWidth} height={cardHeight - 2 * cardPadding}>
+    <div className="orgtree">
+      <svg
+        className="tree_svg"
+        width={svgWidth}
+        height={svgHeight}
+        style={{
+          padding: svgPadding
+            ? svgPadding
+            : !_.isEmpty(treeNodes) && `10px ${(svgWidth - 2 * Math.floor(treeNodes[0].x)) / 2}px`,
+        }}
+      >
+        <g className="tree_node">
+          {_.map(treeNodes, (node, index) => {
+            return index === 0 ? (
+              <g transform={`translate(${node.x}, ${node.y})`}>
+                <defs>
+                  <clipPath id={`clip${index}`}>
+                    <circle cx={imgWidth / 2} cy={imgWidth / 2} r={imgWidth / 2} stroke="#000000" />
+                  </clipPath>
+                </defs>
+                <rect
+                  style={{ stroke: `${cardColor}`, strokeWidth: `${cardStrokeWidth}` }}
+                  fill="none"
+                  width={cardWidth}
+                  height={cardHeight}
+                  transform={`translate(-${cardWidth / 2}, ${cardStrokeWidth})`}
+                  rx={8}
+                  ry={8}
+                />
+                <image
+                  href={node.data.imgSrc}
+                  width={imgWidth}
+                  height={imgWidth}
+                  clipPath={`url(#clip${index})`}
+                  transform={`translate(${cardPadding - cardWidth / 2}, ${cardHeight / 2 - 22})`}
+                />
+                {/* <foreignObject style={{ stroke: `${cardColor}`, strokeWidth: `${cardStrokeWidth}` }} x={0} y={cardHeight / 2} width={cardWidth - 2 * cardPadding - imgWidth} height={cardHeight - 2 * cardPadding}>
                     <p style={{whiteSpace: 'nowrap',overflow: 'hidden',textOverflow: 'ellipsis'}}>测试测试测试测试测试测试测试</p>
                   </foreignObject> */}
-              <text textAnchor="left" transform={`translate(0, ${cardHeight / 2})`}>
-                <tspan x="0" y="0" fontSize={textStyle.rootFontSize?textStyle.rootFontSize:"22"} fontWeight="bold" fill={textStyle.textColor?textStyle.textColor:"#1A2D3F"}>
-                  {node.data.name}
-                </tspan>
-                {decriptionText(node.data.description)}
-              </text>
-            </g>
-          ) : (
-            <g transform={`translate(${node.x}, ${node.y})`}>
-              <defs>
-                <clipPath id={`clip${index}`}>
-                  <circle
-                    cx={imgWidth/2}
-                    cy={imgWidth/2}
-                    r={imgWidth/2}
-                    stroke="#000000"
-                  />
-                </clipPath>
-              </defs>
-              <rect
-                style={{ stroke: `${cardColor}`, strokeWidth: `${cardStrokeWidth}` }}
-                fill="none"
-                width={childCardWidth}
-                height={childCardHeight}
-                transform={`translate(-${childCardWidth / 2}, 0)`}
-                rx={8}
-                ry={8}
-              />
-              <image
-                href={node.data.imgSrc}
-                width={imgWidth}
-                height={imgWidth}
-                clipPath={`url(#clip${index})`}
-                transform={`translate(${-imgWidth / 2}, ${cardPadding/2+5}) scale(1.1)`}
-              />
-              <text
-                textAnchor={textAlign}
-                transform={`translate(0, ${2 * cardPadding + imgWidth})`}
-              >
-                <tspan x="0" y="0" fontSize={textStyle.childFontSize?textStyle.childFontSize:"17"} fontWeight="bold" fill={textStyle.textColor?textStyle.textColor:"#1A2D3F"}>
-                  {node.data.name}
-                </tspan>
-                {decriptionText(node.data.description)}
-              </text>
-            </g>
-          );
-        })}
-      </g>
-      <g className="tree_line">
-        {/* <defs>
+                <text textAnchor="left" transform={`translate(0, ${cardHeight / 2})`}>
+                  <tspan
+                    x="0"
+                    y="0"
+                    fontSize={textStyle.rootFontSize ? textStyle.rootFontSize : '22'}
+                    fontWeight="bold"
+                    fill={textStyle.textColor ? textStyle.textColor : '#1A2D3F'}
+                  >
+                    {node.data.name}
+                  </tspan>
+                  {decriptionText(node.data.description)}
+                </text>
+              </g>
+            ) : (
+              <g transform={`translate(${node.x}, ${node.y})`}>
+                <defs>
+                  <clipPath id={`clip${index}`}>
+                    <circle cx={imgWidth / 2} cy={imgWidth / 2} r={imgWidth / 2} stroke="#000000" />
+                  </clipPath>
+                </defs>
+                <rect
+                  style={{ stroke: `${cardColor}`, strokeWidth: `${cardStrokeWidth}` }}
+                  fill="none"
+                  width={childCardWidth}
+                  height={childCardHeight}
+                  transform={`translate(-${childCardWidth / 2}, 0)`}
+                  rx={8}
+                  ry={8}
+                />
+                <image
+                  href={node.data.imgSrc}
+                  width={imgWidth}
+                  height={imgWidth}
+                  clipPath={`url(#clip${index})`}
+                  transform={`translate(${-imgWidth / 2}, ${cardPadding / 2 + 5}) scale(1.1)`}
+                />
+                <text
+                  textAnchor={textAlign}
+                  transform={`translate(0, ${2 * cardPadding + imgWidth})`}
+                >
+                  <tspan
+                    x="0"
+                    y="0"
+                    fontSize={textStyle.childFontSize ? textStyle.childFontSize : '17'}
+                    fontWeight="bold"
+                    fill={textStyle.textColor ? textStyle.textColor : '#1A2D3F'}
+                  >
+                    {node.data.name}
+                  </tspan>
+                  {decriptionText(node.data.description)}
+                </text>
+              </g>
+            );
+          })}
+        </g>
+        <g className="tree_line">
+          {/* <defs>
           <marker id="arrow"
             markerUnits="strokeWidth"
             markerWidth={20}
@@ -225,42 +219,48 @@ function Index(props) {
             <path d='M2,2 L10,6 L2,10 L6,6 L2,2' fill={lineColor} />
           </marker>
         </defs> */}
-        {_.map(treeLinks, (link, i) => {
-          const start = { x: link.source.x, y: link.source.y };
-          const end = { x: link.target.x, y: link.target.y };
-          // 生成贝塞尔曲线
-          // const pathLink = d3.linkHorizontal().x(d => d.x).y(d => d.y)({ source: start, target: end });
-          // 如果是第一层
-          return start.x === treeLinks[0].source.x && start.y === treeLinks[0].source.y ? (
-            <path
-              key={i}
-              d={`M${start.x},${start.y + cardHeight + cardStrokeWidth} L${start.x},${start.y +
-                cardHeight +
-                cardStrokeWidth +
-                30} L${end.x},${start.y + cardHeight + cardStrokeWidth + 30} ${end.x},${end.y}`}
-              fill="none"
-              stroke={lineColor}
-              strokeWidth="2"
-              // markerEnd='url(#arrow)'
-            />
-          ) : (
-            <path
-              key={i}
-              d={`M${start.x},${start.y + childCardHeight + cardStrokeWidth} L${start.x},${start.y +
-                childCardHeight +
-                cardStrokeWidth +
-                30} L${end.x},${start.y + childCardHeight + cardStrokeWidth + 30} ${end.x},${
-                end.y
-              }`}
-              fill="none"
-              stroke={lineColor}
-              strokeWidth="2"
-              // markerEnd='url(#arrow)'
-            />
-          );
-        })}
-      </g>
-    </svg>
+          {_.map(treeLinks, (link, i) => {
+            const start = { x: link.source.x, y: link.source.y };
+            const end = { x: link.target.x, y: link.target.y };
+            // 生成贝塞尔曲线
+            // const pathLink = d3.linkHorizontal().x(d => d.x).y(d => d.y)({ source: start, target: end });
+            // 如果是第一层
+            return start.x === treeLinks[0].source.x && start.y === treeLinks[0].source.y ? (
+              <path
+                key={i}
+                d={`M${start.x},${start.y + cardHeight + cardStrokeWidth} L${start.x},${start.y +
+                  cardHeight +
+                  cardStrokeWidth +
+                  30} L${end.x},${start.y + cardHeight + cardStrokeWidth + 30} ${end.x},${end.y}`}
+                fill="none"
+                stroke={lineColor}
+                strokeWidth="2"
+                // markerEnd='url(#arrow)'
+              />
+            ) : (
+              <path
+                key={i}
+                d={`M${start.x},${start.y + childCardHeight + cardStrokeWidth} L${
+                  start.x
+                },${start.y + childCardHeight + cardStrokeWidth + 30} L${end.x},${start.y +
+                  childCardHeight +
+                  cardStrokeWidth +
+                  30} ${end.x},${end.y}`}
+                fill="none"
+                stroke={lineColor}
+                strokeWidth="2"
+                // markerEnd='url(#arrow)'
+              />
+            );
+          })}
+        </g>
+      </svg>
+
+      <div className="zoombtn">
+        <span onClick={zoomUp}>+</span>
+        <span onClick={zoomDown}>-</span>
+      </div>
+    </div>
   );
 }
 
