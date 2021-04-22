@@ -3,14 +3,14 @@
  * Author       : Saraku.
  * Date         : 2021-04-21 09:08:30
  * LastEditors  : Dongxy
- * LastEditTime : 2021-04-21 15:27:36
+ * LastEditTime : 2021-04-22 17:50:51
  */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from 'react';
 import _ from 'lodash';
 import * as d3 from 'd3';
 import userPng from '../assets/svg/user.svg';
-import './index.css';
+// import './index.css';
 
 /**
  * @param {svgWidth} svgWidth int 图形宽度
@@ -101,23 +101,24 @@ function Index(props) {
 
   /** 放大 */
   const zoomUp = () => {
-    d3.zoom.scaleTo(treeSelect.current, transScale + 0.05);
+    // d3.zoom().scaleTo(treeSelect.current, transScale + 0.05);
     setTransScale(transScale + 0.05);
   };
 
   /** 缩小 */
   const zoomDown = () => {
-    d3.zoom.scaleTo(treeSelect.current, transScale - 0.05);
+    // d3.zoom().scaleTo(treeSelect.current, transScale - 0.05);
     setTransScale(transScale - 0.05);
   };
 
   return (
-    <div className="orgtree">
+    <div className="orgtree" style={{ position: 'relative' }}>
       <svg
         className="tree_svg"
         width={svgWidth}
         height={svgHeight}
         style={{
+          transform:`scale(${transScale})`,
           padding: svgPadding
             ? svgPadding
             : !_.isEmpty(treeNodes) && `10px ${(svgWidth - 2 * Math.floor(treeNodes[0].x)) / 2}px`,
@@ -256,9 +257,44 @@ function Index(props) {
         </g>
       </svg>
 
-      <div className="zoombtn">
-        <span onClick={zoomUp}>+</span>
-        <span onClick={zoomDown}>-</span>
+      <div className="zoombtn" style={{ position: 'absolute', top: 0, right: 0,margin:'8px' }}>
+        <span
+          onClick={zoomUp}
+          style={{
+            color: '#2784ee',
+            fontSize: '24px',
+            fontWeight: 'bold',
+            display: 'inline-block',
+            height: '28px',
+            width: '28px',
+            lineHeight: '20px',
+            textAlign:'center',
+            border: '1px solid #2784ee',
+            borderRadius: '50%',
+            marginRight:'12px',
+            cursor:'pointer'
+          }}
+        >
+          +
+        </span>
+        <span
+          onClick={zoomDown}
+          style={{
+            color: '#2784ee',
+            fontSize: '24px',
+            fontWeight: 'bold',
+            display: 'inline-block',
+            height: '28px',
+            width: '28px',
+            lineHeight: '20px',
+            textAlign:'center',
+            border: '1px solid #2784ee',
+            borderRadius: '50%',
+            cursor:'pointer'
+          }}
+        >
+          -
+        </span>
       </div>
     </div>
   );
